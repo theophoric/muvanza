@@ -79,5 +79,4 @@ test:
         max_retries: 1
         retry_interval: 0
 production:
-  # uri: mongodb://yenta:yentaballs@staff.mongohq.com:10079/yenta-staging
   uri: <%=ENV['MONGOHQ_URL'] %>

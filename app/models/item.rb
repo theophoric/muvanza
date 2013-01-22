@@ -4,7 +4,7 @@ class Item
   embedded_in :inventory
 
   field :name
-  field :quantity
+  field :quantity, type: Integer
   field :item_type
   
 end 

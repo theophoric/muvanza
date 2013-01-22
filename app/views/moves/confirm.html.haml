@@ -1,25 +1,47 @@
-- model_class = Move
-.page-header
-  %h1=t '.title', :default => model_class.model_name.human
+.jumbo.subhead
+  .container
+    .span8
+      %h2 Move summary
+      %p.lead
+        Confirm your details here, then enter your email address in the field provided.  We'll let you know as soon as a company has placed a bid for you to review, usually within 24 hours.
+    .well.span3
+      = form_for :customer_email, class: 'form-search', remote: true do |f|
+        = f.text_field :email, class: 'input-medium search-query', placeholder: 'bob@example.com'
+        %button.btn
+          %i.icon.icon-envelope
 
-.row
-  .span5
-    = image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@move.to_address.latitude}%2C#{@move.to_address.longitude}"
-    to
-  .span5
-    = image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@move.from_address.latitude}%2C#{@move.from_address.longitude}"
-  %b
-    distance:
+
+
+.span6
+  %h4
+
+    Distance:
     = "#{@move.distance} miles"
-.form-actions
-  - if current_user
-    = link_to "Confirm", pending_move_path(move)
-  - else
 
-    = form_for :user
+  .row-fluid
+    .span6.thumbnail  
+      From:
+      = @move.from_address.full_street_address
+      = image_tag "http://maps.google.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@move.to_address.latitude}%2C#{@move.to_address.longitude}"
+    .span6.thumbnail  
+      To:
+      = @move.from_address.full_street_address
+      = image_tag "http://maps.google.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@move.from_address.latitude}%2C#{@move.from_address.longitude}"
+  
 
-.inventory
-  = render partial: 'inventories/items/item', collection: @inventory.items
+.inventory.span6
+  %h4
+    Inventory:
+    = "#{@inventory.items.count} items"
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Room
+        %th Type
+        %th Size
+        %th Quantity
+    %tbody
+      = render partial: 'inventories/items/item', collection: @inventory.items
 
 - if @move.incomplete?
   = content_for :sidebar do
