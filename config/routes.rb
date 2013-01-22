@@ -1,8 +1,4 @@
 Muvanza::Application.routes.draw do
-  devise_for :moving_companies
-
-  devise_for :customers
-
   resources :moves do
     member do
       get :confirm
