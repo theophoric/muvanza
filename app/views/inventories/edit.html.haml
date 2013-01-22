@@ -1,0 +1,35 @@
+
+- move ||= @move
+- inventory ||= @inventory
+- items ||= inventory.items
+- items_count = items.count
+
+.jumbo.subhead
+  .container
+    .span8
+      %h2 Inventory
+      %p.lead
+        Moving companies compute their bids based on how much stuff you have and how far it needs to travel.  Tell us about what needs to get moved.
+    .well.span3
+
+.well
+  .items-new
+    = render partial: 'inventories/items/form'
+  %table.table.table-hover
+    %caption.alert-info= "#{items_count} items #{items_count == 1 ? 'has' : 'have'} been added to your inventory."
+    %thead
+      %tr
+        %th Room
+        %th Type
+        %th Size
+        %th Quantity
+        %th
+    %tbody
+      - inventory.items.each do |item|
+        = render partial: 'inventories/items/item', locals: {item: item}
+
+  
+  .actions
+    = link_to confirm_move_path(move), class: 'btn btn-primary' do
+      Next
+      %i{class: "icon icon-chevron-right"}

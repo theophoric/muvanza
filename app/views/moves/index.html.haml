@@ -1,0 +1,16 @@
+.page-header
+  %h1 Moves
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name (user ? randomly-generated?)
+      %th Move Distance
+      %th Move Date
+      %th Inventory Size
+      %th # Bids
+      %th Current Low Bid
+      %th Average Bid
+  %tbody
+    = render collection: @moves
+
+= link_to t('.new', :default => t("helpers.links.new")), new_move_path, :class => 'btn btn-primary'

@@ -1,0 +1,31 @@
+- model_class = Move
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human
+
+.row
+  .span5
+    = image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@move.to_address.latitude}%2C#{@move.to_address.longitude}"
+    to
+  .span5
+    = image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@move.from_address.latitude}%2C#{@move.from_address.longitude}"
+  %b
+    distance:
+    = "#{@move.distance} miles"
+.form-actions
+  - if current_user
+    = link_to "Confirm", pending_move_path(move)
+  - else
+
+    = form_for :user
+
+.inventory
+  = render partial: 'inventories/items/item', collection: @inventory.items
+
+- if @move.incomplete?
+  = content_for :sidebar do
+    %h3 Your Move
+    %ul.nav.nav-list
+      %li.nav-header
+      %li{"data-target" => "address"}= link_to "Step 1 - Address", ""
+      %li{"data-target" => "inventory"}= link_to "Step 2 - Inventory", edit_move_inventory_path(@move.inventory)
+      %li{"data-target" => "address"}= link_to "Step 3 - ", "/path3"

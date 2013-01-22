@@ -1,0 +1,12 @@
+= form_for :item, url: add_item_move_inventory_path(move), class: 'form-horizontal' do |f|
+  .control-group
+    .controls
+      .input-append
+        = f.select :room, room_names.collect{|room| [room.humanize, room]}
+        = f.select :_type, item_names.collect{|item| [item.humanize, item]}
+        = f.select :size, %w{small medium large}
+        = f.number_field :quantity, class: 'input-mini', value: 1, required: true
+        %button.btn.btn-inverse{type: "submit"}
+          add 
+
+          %i{class: "icon icon-plus"}

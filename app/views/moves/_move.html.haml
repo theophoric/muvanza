@@ -1,0 +1,10 @@
+- move ||= @move
+
+%tr[move]
+  %td= move.name
+  %td= move.distance
+  %td= move.date
+  %td= move.inventory.size
+  %td= move.bids.count
+  %td= move.bids.min(:price)
+  %td= move.bids.avg(:price)

@@ -1,0 +1,31 @@
+
+= form_for @move, :html => { :class => 'form-vertical' } do |f|
+  %fieldset
+    %legend
+      Plan Your Move
+    .control-group
+      = f.fields_for :to_address do |to_address_fields|
+        = to_address_fields.label :full_street_address, "From", class: 'control-label'
+        .controls
+          = to_address_fields.text_field :full_street_address, label: 'From', required: true, placeholder: 'Zip, or Street Address and City'
+    .control-group
+      = f.fields_for :from_address do |from_address_fields|
+        = from_address_fields.label :full_street_address, "To", class: 'control-label'
+        .controls
+          = from_address_fields.text_field :full_street_address, label: 'To', required: true, placeholder: 'Zip, or Street Address and City'
+    .control-group
+      = f.label :date, "Preferred Move Date", class: 'control-label'
+      .controls
+        = f.text_field :date, class: 'datepicker', required: true, placeholder: 'Pick a Date'        
+    .form-actions
+      %button.btn.btn-primary.btn-large{type: "submit"}
+        Next
+        %i.icon.icon-chevron-right
+
+    
+    / .control-group
+    /   = f.label :date_tolerance, "Within ", class: 'control-label'
+    /   .controls
+    /     .input-append
+    /       = f.number_field :date_tolerance, class: 'input-mini', required: true, default: 2, min:0
+    /       %span.add-on days

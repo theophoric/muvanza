@@ -1,0 +1,28 @@
+- model_class = Move
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human
+
+.row
+  .span5
+    = image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@move.to_address.latitude}%2C#{@move.to_address.longitude}"
+    to
+  .span5
+    = image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@move.from_address.latitude}%2C#{@move.from_address.longitude}"
+  %b
+    distance:
+    = "#{@move.distance} miles"
+.form-actions
+  = link_to t('.back', :default => t("helpers.links.back")), moves_path, :class => 'btn'
+  = link_to t('.edit', :default => t("helpers.links.edit")), edit_move_path(@move), :class => 'btn'
+  = link_to t('.destroy', :default => t("helpers.links.destroy")), move_path(@move), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'
+
+- if @move.incomplete?
+  = content_for :sidebar do
+    %h3 Your Move
+    %ul.nav.nav-list
+      %li.nav-header
+      %li{"data-target" => "address"}= link_to "Step 1 - Address", ""
+      %li{"data-target" => "inventory"}= link_to "Step 2 - Inventory", edit_move_inventory_path(@move.inventory)
+      %li{"data-target" => "address"}= link_to "Step 3 - ", "/path3"
+- else
+  

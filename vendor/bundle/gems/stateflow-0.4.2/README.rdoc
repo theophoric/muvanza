@@ -1,0 +1,131 @@
+= Stateflow
+
+== TODO
+
+* More Persistence layers
+* More Tests
+* More features
+* Speeed!
+
+This is the basics of the gem. Please check out the examples directory or tests for usage until this README gets fleshed out. Feel free to fork and modify as you please.
+
+== INSTALL
+
+  gem install stateflow
+
+== Usage
+
+As you can see below, Stateflow's API is very similar to AASM, but allows for a more dynamic state transition flow. Stateflow supports persistence/storage with Mongoid, MongoMapper, and ActiveRecord. Request any others or push them to me.
+
+Stateflow defaults to ActiveRecord but you can set the persistence layer with:
+
+  Stateflow.persistence = :mongo_mapper
+OR
+  Stateflow.persistence = :active_record
+OR
+  Stateflow.persistence = :mongoid
+
+Stateflow allows dynamic :to transitions with :decide. The result :decide returns needs to be one of the states listed in the :to array, otherwise it wont allow the transition. Please view the advanced example below for usage.
+
+You can set the default column with the state_column function in the stateflow block. The default state column is "state".
+
+  state_column :state
+
+== Basic Example
+
+  require 'rubygems'
+  require 'stateflow'
+
+  # No persistence
+  Stateflow.persistence :none
+
+  class Robot
+    include Stateflow
+
+    stateflow do
+      initial :green
+
+      state :green, :yellow, :red
+
+      event :change_color do
+        transitions :from => :green, :to => :yellow
+        transitions :from => :yellow, :to => :red
+        transitions :from => :red, :to => :green
+      end
+    end
+  end
+
+== Advanced Example
+
+  require 'rubygems'
+  require 'stateflow'
+
+  # No persistence
+  Stateflow.persistence :none
+
+  class Test
+    include Stateflow
+
+    stateflow do
+
+      initial :love
+
+      state :love do
+        enter lambda { |t| p "Entering love" }
+        exit :exit_love
+      end
+
+      state :hate do
+        enter lambda { |t| p "Entering hate" }
+        exit lambda { |t| p "Exiting hate" }
+      end
+
+      state :mixed do
+        enter lambda { |t| p "Entering mixed" }
+        exit lambda { |t| p "Exiting mixed" }
+      end
+
+      event :b do
+        transitions :from => :love, :to => :hate, :if => :no_ice_cream
+        transitions :from => :hate, :to => :love
+      end
+
+      event :a do
+        transitions :from => :love, :to => [:hate, :mixed], :decide => :likes_ice_cream?
+        transitions :from => [:hate, :mixed], :to => :love
+      end
+    end
+
+    def likes_ice_cream?
+      rand(10) > 5 ? :mixed : :hate
+    end
+
+    def exit_love
+      p "Exiting love"
+    end
+
+    def no_ice_cream
+      rand(4) > 2 ? true : false
+    end
+  end
+
+== Bang event vs non-bang event
+
+Bang events will save the model after call, where the non bang event will just update the state and call the transitions. (ie. model.change! vs model.change)
+
+== Extra's
+
+* When transitioning states, the previous state from which you have transitioned to can be accessed via `_previous_state`. See tests for more information.
+
+== Note on Patches/Pull Requests
+ 
+* Fork the project.
+* Make your feature addition or bug fix.
+* Add tests for it. This is important so I don't break it in a future version unintentionally.
+* Commit, do not mess with Rakefile, version, or history.
+  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
+* Send me a pull request. Bonus points for topic branches.
+
+== Copyright
+
+Copyright (c) 2010 Ryan Oberholzer. See LICENSE for details.
