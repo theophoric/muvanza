@@ -5,7 +5,7 @@ class Item
 
   field :name
   field :quantity
-  field :_type
+  field :item_type
   
 end 
 

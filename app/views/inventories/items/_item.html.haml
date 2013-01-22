@@ -1,6 +1,6 @@
 %tr
   %td= item.room.to_s.humanize
-  %td= item._type
+  %td= item.item_type.to_s.humanize
   %td= item.size
   %td
     %span.badge= item.quantity
