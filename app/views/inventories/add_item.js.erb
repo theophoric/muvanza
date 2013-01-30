@@ -1,0 +1,3 @@
+$('.inventory_item_list table').append('<%= escape_javascript(render partial: "inventories/items/item") %>');
+$('.item_count').text('<%= @item_count %>');
+$('.volume_count').text('<%= @volume_count %>');

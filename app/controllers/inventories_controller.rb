@@ -1,16 +1,30 @@
 class InventoriesController < ApplicationController
-  helper_method :move, :inventory, :room_names, :item_names
-  before_filter :move, :inventory
 
-  def edit;end
+  def edit
+    @move = Move.find(params[:move_id])
+    @inventory = @move.inventory
+    @items_count = @inventory.items.count
+    @room_names = ItemTemplate.room_names
+    @item_templates = ItemTemplate.where(room: @room_names.first).group_by(&:item_group)
+  end
+
+  def filter_item_templates
+    @move = Move.find(params[:move_id])
+    @room_name = params[:room_name]
+    @item_templates = ItemTemplate.where(room: @room_name).group_by(&:item_group)
+  end
 
   def update
     inventory.update_attributes(params[:inventory])
   end
 
   def add_item
-    inventory.items.create(params[:item])
-    render :edit
+    @move = Move.find(params[:move_id])
+    @inventory = @move.inventory
+    item_template = ItemTemplate.find(params[:item_template_id])
+    @item = @inventory.items.create(item_template.attributes.except('_id'))
+    @item_count = @inventory.items.count
+    @item_volume = @inventory.items.sum(:volume)
   end
 
   def duplicate_item
@@ -24,13 +38,4 @@ class InventoriesController < ApplicationController
   def inventory
     @inventory ||= @move.inventory
   end
-
-  def room_names
-    %w{master_bed_room bed_room_1 bed_room_2 bath_room kitchen living_room dining_room}
-  end
-
-  def item_names
-    %w{bed sofa coffee_table dining_table dining_chair lounge_chair television refrigerator box dresser}
-  end
-
 end

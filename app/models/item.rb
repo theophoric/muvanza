@@ -3,9 +3,11 @@ class Item
 
   embedded_in :inventory
 
+  field :room
+  field :group
   field :name
+  field :volume, type: Integer
   field :quantity, type: Integer
-  field :item_type
   
 end 
 

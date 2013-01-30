@@ -6,13 +6,17 @@ Muvanza::Application.routes.draw do
     end
 
     resource :inventory do
-      post :add_item, on: :collection
+      match 'add_item/:item_template_id' => 'inventories#add_item', as: :add_item
+      match 'filter_item_templates/(:room_name)' => 'inventories#filter_item_templates', as: :filter_item_templates
       post :remove_item, on: :member
     end
 
     resources :bids 
 
   end
+
+  
+
   root to: 'moves#new'
 
   # The priority is based upon order of creation:
