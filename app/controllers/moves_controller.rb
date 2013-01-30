@@ -56,7 +56,7 @@ class MovesController < ApplicationController
   # POST /moves
   # POST /moves.json
   def create
-    console.log("PARAMS=",params)
+
     @move = Move.new(params[:move])
 
     respond_to do |format|
