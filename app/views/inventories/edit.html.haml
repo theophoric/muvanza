@@ -23,16 +23,15 @@
 
   .span6.inventory_item_list
     %table.table.table-striped
+      = render partial: 'inventories/items/item', collection: @items
     .row
       %p.lead 
         Volume: 
-        %span.badge.badge-info.volume_count 0
+        %span.badge.badge-info.volume_count= @volume_count
         %span.spacer 
         Items: 
-        %span.badge.badge-info.item_count 0
-
-
-.actions
-  = link_to confirm_move_path(@move), class: 'btn btn-primary' do
-    Next
-    %i{class: "icon icon-chevron-right"}
+        %span.badge.badge-info.item_count= @item_count
+        %span.spacer
+        = link_to confirm_move_path(@move), class: 'btn btn-primary' do
+          Next
+          %i{class: "icon icon-chevron-right"}

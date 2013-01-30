@@ -1,5 +1,5 @@
 - item ||= @item
-%tr.inventory-item{data: {item_name: @item.name }}
+%tr.inventory-item{data: {item_name: item.name }}
   %td= item.room.to_s.humanize
   %td= item.name
   %td

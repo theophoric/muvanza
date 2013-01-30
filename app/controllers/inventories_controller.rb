@@ -3,9 +3,12 @@ class InventoriesController < ApplicationController
   def edit
     @move = Move.find(params[:move_id])
     @inventory = @move.inventory
-    @items_count = @inventory.items.count
+    @items = @inventory.items
+    @items_count = @items.count
     @room_names = ItemTemplate.room_names
     @item_templates = ItemTemplate.where(room: @room_names.first).group_by(&:item_group)
+    @item_count = @inventory.items.count
+    @volume_count = @inventory.items.sum(:volume)
   end
 
   def filter_item_templates
@@ -24,7 +27,7 @@ class InventoriesController < ApplicationController
     item_template = ItemTemplate.find(params[:item_template_id])
     @item = @inventory.items.create(item_template.attributes.except('_id'))
     @item_count = @inventory.items.count
-    @item_volume = @inventory.items.sum(:volume)
+    @volume_count = @inventory.items.sum(:volume)
   end
 
   def duplicate_item
