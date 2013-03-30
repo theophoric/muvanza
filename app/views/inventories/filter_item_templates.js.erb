@@ -1,0 +1,11 @@
+$('.room_list li').removeClass('active');
+$('.item_room_toggle[data-room-name="#{@room_name}"]').parent().addClass('active');
+$('.item_group_list').html("<%= escape_javascript(render partial: 'item_groups') %>");
+$('.popover').remove();
+$('.item_group_toggle').popover({html:true});
+$('.item_group_toggle').click(function(){
+  $('.item_group_list li').removeClass('active');
+  $(this).parent().addClass('active');
+  $('.item_group_toggle').popover('toggle');
+})
+

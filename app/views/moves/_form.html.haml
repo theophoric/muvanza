@@ -4,19 +4,10 @@
     %legend
       Plan Your Move
     .control-group
-      = f.fields_for :to_address do |to_address_fields|
-        = to_address_fields.label :full_street_address, "From", class: 'control-label'
-        .controls
-          = to_address_fields.text_field :full_street_address, label: 'From', required: true, placeholder: 'Zip, or Street Address and City'
-    .control-group
-      = f.fields_for :from_address do |from_address_fields|
-        = from_address_fields.label :full_street_address, "To", class: 'control-label'
-        .controls
-          = from_address_fields.text_field :full_street_address, label: 'To', required: true, placeholder: 'Zip, or Street Address and City'
-    .control-group
-      = f.label :date, "Preferred Move Date", class: 'control-label'
+      = label_tag :home_template, "Size"
       .controls
-        = f.text_field :date, class: 'datepicker', required: true, placeholder: 'Pick a Date'        
+        = select_tag :home_template_id, options_for_select(@home_templates.collect{|ht| ["#{ht.title}", ht.id ]})
+    
     .form-actions
       %button.btn.btn-primary.btn-large{type: "submit"}
         Next

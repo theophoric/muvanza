@@ -6,32 +6,32 @@
       %h2 Inventory
       %p.lead
         Moving companies compute their bids based on how much stuff you have and how far it needs to travel.  Tell us about what needs to get moved.
-    .well.span3
 
 
 
 
 
 
-.well#inventory_editor.span12
-  .span2.room_list
-    %ul.nav.nav-list
-      - @room_names.each do |room_name|
-        %li= link_to room_name, filter_item_templates_move_inventory_path(@move,room_name), remote: true, data: {room_name: room_name}, class: 'item_room_toggle'
+#inventory_editor.span12
+  .well.row
+    .span2.room_list
+      %ul.nav.nav-list
+        - @room_names.each do |room_name|
+          %li= link_to room_name, filter_item_templates_move_inventory_path(@move,room_name), remote: true, data: {room_name: room_name}, class: 'item_room_toggle'
 
-  .span3.item_group_list
+    .span3.item_group_list
 
-  .span6.inventory_item_list
-    %table.table.table-striped
-      = render partial: 'inventories/items/item', collection: @items
-    .row
-      %p.lead 
-        Volume: 
-        %span.badge.badge-info.volume_count= @volume_count
-        %span.spacer 
-        Items: 
-        %span.badge.badge-info.item_count= @item_count
-        %span.spacer
-        = link_to confirm_move_path(@move), class: 'btn btn-primary' do
-          Next
-          %i{class: "icon icon-chevron-right"}
+    .span6.inventory_item_list
+      %table.table.table-striped
+        = render partial: 'inventories/items/item', collection: @items
+      .row
+        %p.lead 
+          Volume: 
+          %span.badge.badge-info.volume_count= @volume_count
+          %span.spacer 
+          Items: 
+          %span.badge.badge-info.item_count= @item_count
+          %span.spacer
+          = link_to confirm_move_path(@move), class: 'btn btn-primary' do
+            Next
+            %i{class: "icon icon-chevron-right"}

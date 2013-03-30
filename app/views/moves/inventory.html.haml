@@ -1,0 +1,8 @@
+.page-header
+  %h1 Inventory
+.well
+  %table.table.table-striped
+    %tbody
+      - @rooms.each do |room|    
+        %tr
+          %td= room.title

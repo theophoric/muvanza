@@ -1,7 +1,12 @@
 Muvanza::Application.routes.draw do
+
+
+
   resources :moves do
     member do
+      get :inventory
       get :confirm
+
       get :pending
     end
 

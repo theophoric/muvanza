@@ -1,15 +1,26 @@
 class Item
   include Mongoid::Document
 
-  embedded_in :inventory
+  belongs_to :template, class_name: "ItemTemplate"
+  belongs_to :room
+  embeds_one :item_size
 
-  field :room
-  field :group
-  field :name
-  field :volume, type: Integer
+  field :title
+  field :description
   field :quantity, type: Integer
+  field :size
+
+
+  after_create :generate_from_template
+
+  private
+
+    def generate_from_template
+
+    end
   
 end 
+
 
 
 class BoxItem < Item

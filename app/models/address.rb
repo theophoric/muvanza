@@ -2,7 +2,7 @@ class Address
   include Mongoid::Document
   include Geocoder::Model::Mongoid
 
-  embedded_in :move
+  embedded_in :home
 
   field :full_street_address
   field :coordinates, type: Array

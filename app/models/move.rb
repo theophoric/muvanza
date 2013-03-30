@@ -6,20 +6,14 @@ class Move
 
   has_many :bids
 
-  embeds_one :from_address, class_name: 'Address'
-  embeds_one :to_address, class_name: 'Address'
-
-  has_one :inventory
-
-  accepts_nested_attributes_for :from_address, :to_address, :inventory
-
   field :date, type: Date
   field :date_tolerance, type: Integer
 
   field :distance
   field :state
-  
 
+  has_one :home, autosave: true
+  
   stateflow do 
     initial :incomplete
     state :incomplete, :pending, :assigned, :completed, :canceled
@@ -28,10 +22,15 @@ class Move
 
   after_create do |record|
     Inventory.create(move_id: record.id)
-    update_distance
+    # update_distance
   end
 
   private
+
+    def default_home_template
+      raise "not yet implemented"
+    end
+
     def update_distance
       update_attribute(:distance, find_distance)  
     end

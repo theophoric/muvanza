@@ -1,6 +1,15 @@
 class MovesController < ApplicationController
 
+  before_filter :get_move, only: [:new, :inventory]
 
+  def inventory
+    @home = @move.home
+    @rooms = @home.rooms
+  end
+
+  def details
+    
+  end
 
 
   def confirm
@@ -39,8 +48,9 @@ class MovesController < ApplicationController
   # GET /moves/new.json
   def new
     @move = Move.new
-    @move.build_to_address
-    @move.build_from_address
+    @home_templates = HomeTemplate.all
+    # @move.build_to_address
+    # @move.build_from_address
     respond_to do |format|
       format.html {render layout: 'no_sidebar' }
       format.json { render json: @move}
@@ -56,12 +66,23 @@ class MovesController < ApplicationController
   # POST /moves
   # POST /moves.json
   def create
+    puts params
+    home_template = HomeTemplate.find(params[:home_template_id])
 
-    @move = Move.new(params[:move])
+
+    @move = Move.new(params[:move]) # this is currently empty
+
+    # need to initialize the new home based on the home template
+    # home will always be bound to a  home template
+
+
+    # then generate rooms and items based on respective templates
+
+    @move.home = Home.new(template_id: home_template.id)
 
     respond_to do |format|
       if @move.save!
-        format.html { redirect_to controller: "inventories", action: 'edit', move_id: @move.id, id: @move.create_inventory.id, notice: 'Move was successfully created.' }
+        format.html { redirect_to action: :inventory, id: @move.id }
         format.json { render json: @move, status: :created, location: @move }
       else
         format.html { render action: "new" }
@@ -97,5 +118,14 @@ class MovesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+    def get_move
+      @move = params[:id].nil? ? Move.new(params[:move]) : Move.find(params[:id])
+    end
+
+    def get_moves
+      @moves = Move.all
+    end
 
 end
