@@ -30,16 +30,58 @@
 //
 // Example:
 // @linkColor: #ff0000;
+.centered{
+  text-align:center;
+}
 
+.border{
+  border: 1px solid #d7d7d7;
+}
+
+.border-right{
+  border-right: 1px solid #d7d7d7;
+}
+
+.border-left{
+  border-left: 1px solid #d7d7d7;
+}
+
+.border-bottom{
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.border-top{
+  border-top: 1px solid #d7d7d7;
+}
+
+tr.spacer{
+  height:5px;
+}
 
 #inventory_editor {
   #room_list {
     height: 550px;
+    
+  }
+  #item_group_list {
+    height:550px;
   }
 
   #inventory_item_list {
-    height:550px;
-    overflow:scroll;
+    table{
+      tbody{
+        max-height:500px;
+        min-height:50px;
+        overflow:scroll;
+        tr{
+          &.item{
+            &.active{
+              background-color:#f7f7f7;
+            }
+          }
+        }
+      }
+    }
   }
 
 }

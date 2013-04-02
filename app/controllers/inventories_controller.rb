@@ -6,8 +6,6 @@ class InventoriesController < ApplicationController
     @items_by_room = @inventory.items.group_by(&:room)
     @room_names = ItemTemplate.room_names
     @item_templates = ItemTemplate.where(room: @room_names.first).group_by(&:item_group)
-    @item_count = @inventory.total_item_quantity
-    @volume_count = @inventory.total_item_volume
   end
 
   def filter_item_templates
@@ -26,7 +24,8 @@ class InventoriesController < ApplicationController
     item_template = ItemTemplate.find(params[:item_template_id])
     @item = @inventory.items.find_or_initialize_by(
       room: item_template.room,
-      name: item_template.name
+      name: item_template.name,
+      volume: item_template.volume
       )
     @item.quantity += 1
     @item.save

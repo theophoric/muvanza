@@ -9,4 +9,8 @@ class Item
   field :volume, type: Integer, default: 0
   field :quantity, type: Integer, default: 0
 
+  def total_volume
+    volume * quantity
+  end
+
 end

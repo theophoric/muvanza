@@ -1,6 +1,12 @@
 - item ||= @item
-%tr.inventory-item[item]{data: {item_name: item.name }}
-  %td= item.room.to_s.humanize
-  %td= item.name
+%tr[item]{data: {item_name: item.name, room_name: item.room }}
+  %td= item.room
+  %td= "#{item.quantity.eql?(1) ? item.name : item.name.pluralize}"
   %td
-    %span.badge.quantity= item.quantity
+    .quantity= item.quantity
+  %td
+    .volume
+      = "#{item.total_volume} ft"
+      %sup 3
+
+      

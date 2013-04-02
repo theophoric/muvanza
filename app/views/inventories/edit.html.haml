@@ -2,11 +2,17 @@
 
 .jumbo.subhead
   .container
-    .span8
+    .span8.border-right
       %h2 Inventory
       %p.lead
         Moving companies compute their bids based on how much stuff you have and how far it needs to travel.  Tell us about what needs to get moved.
-    .well.span3
+    .span3.centered
+      .well
+        %h2.border-bottom All done?
+        %p
+          = link_to confirm_move_path(@move), class: 'btn btn-primary btn-large' do
+            Next
+            %i{class: "icon icon-chevron-right"}
 
 
 
@@ -23,21 +29,33 @@
   .span3
     #item_group_list
 
+      
+
+
 
 
 
   .span6
     #inventory_item_list
-      - @items_by_room.each do |room, items|
-        = render partial: 'inventories/room', locals: {room: room, items: items }
-    .row
-      %p.lead 
-        Volume: 
-        %span.badge.badge-info.volume_count= @volume_count
-        %span.spacer 
-        Items: 
-        %span.badge.badge-info.item_count= @item_count
-        %span.spacer
-        = link_to confirm_move_path(@move), class: 'btn btn-primary' do
-          Next
-          %i{class: "icon icon-chevron-right"}
+      %table.table
+        %thead.border-bottom
+          %tr
+            %th Room
+            %th Item
+            %th Quantity
+            %th Volume
+        %tbody
+          - @items_by_room.each do |room, items|
+            = render partial: 'inventories/room', locals: {room: room, items: items }
+
+    
+        %tfoot#item_totals.border-top.alert.alert-info
+          %tr
+            %th Total:
+            %th
+            %th
+              %span.badge.item_count= @inventory.total_item_quantity
+            %th
+              %span.badge.volume_count
+                = "#{@inventory.total_item_volume} ft"
+                %sup 3

@@ -1,14 +1,15 @@
 
 var item = $('#item_<%= @item._id %>');
 if(_.any(item)){
-  item.find('.quantity').text("<%= @item.quantity %>");
+  item.replaceWith('<%= escape_javascript(render partial: "inventories/items/item") %>');
 }else{
-  var room = $("#room_<%= format_room_name_for_dom_id(@item.room) %>");
+  var room = $("#room_<%= format_room_name(@item.room) %>");
   if(_.any(room)){
-    room.find('tbody').append('<%= escape_javascript(render partial: "inventories/items/item") %>');
+    room.before('<%= escape_javascript(render partial: "inventories/items/item") %>');
   }else{
-    $('#inventory_item_list').append('<%= escape_javascript(render partial: "inventories/room", locals: {room: @item.room, items: [@item]})%>')
+    $('#inventory_item_list tbody').append('<%= escape_javascript(render partial: "inventories/room", locals: {room: @item.room, items: [@item]})%>');
   }
+  $('#inventory_item_list .item[data-room_name="<%=@item.room%>"]').addClass("active");
 }
 $('.item_count').text('<%= @item_count %>');
 $('.volume_count').text('<%= @volume_count %>');

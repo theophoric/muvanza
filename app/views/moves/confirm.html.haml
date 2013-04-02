@@ -1,14 +1,18 @@
 .jumbo.subhead
   .container
-    .span8
+    .span8.border-right
       %h2 Move summary
       %p.lead
         Confirm your details here, then enter your email address in the field provided.  We'll let you know as soon as a company has placed a bid for you to review, usually within 24 hours.
-    .well.span3
-      = form_for :customer_email, class: 'form-search', remote: true do |f|
-        = f.text_field :email, class: 'input-medium search-query', placeholder: 'bob@example.com'
-        %button.btn
-          %i.icon.icon-envelope
+    .span3.centered
+      .well
+        %h3
+          Confirm Details
+        %p
+          = form_for :customer_email, class: 'form-search', remote: true do |f|
+            = f.text_field :email, class: 'input-medium search-query', placeholder: 'bob@example.com'
+            %button.btn
+              %i.icon.icon-envelope
 
 
 
