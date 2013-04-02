@@ -1,3 +1,3 @@
-%ul.nav.nav-list.span6
+%ul.nav.nav-list
   - templates.each do |template|
     %li= link_to template.name, add_item_move_inventory_path(@move, template.id), remote: true

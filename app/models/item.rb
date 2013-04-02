@@ -6,24 +6,7 @@ class Item
   field :room
   field :group
   field :name
-  field :volume, type: Integer
-  field :quantity, type: Integer
-  
-end 
-
-
-class BoxItem < Item
-
-
+  field :volume, type: Integer, default: 0
+  field :quantity, type: Integer, default: 0
 
 end
-
-# class Dimension
-#   include Mongoid::Document
-
-#   field :length
-#   field :width
-#   field :units
-
-
-# end

@@ -2,4 +2,4 @@
 
 %ul.nav.nav-list
   - item_templates.each do |item_group, templates|
-    %li= link_to item_group, '#', class: 'item_group_toggle', data: {content: "#{render partial: 'item_templates', locals: {templates: templates, item_group: item_group }}"}
+    %li= link_to item_group, '#', class: 'item_group_toggle', data: {title: item_group, content: "#{render partial: 'item_templates', locals: {templates: templates, item_group: item_group }}"}

@@ -15,4 +15,6 @@
 //= require jquery.pjax
 //= require twitter/bootstrap
 //= require bootstrap-datepicker
+//= require underscore
+//= require jquery.ajaxy
 //= require_tree .

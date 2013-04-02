@@ -1,6 +1,6 @@
 - item ||= @item
-%tr.inventory-item{data: {item_name: item.name }}
+%tr.inventory-item[item]{data: {item_name: item.name }}
   %td= item.room.to_s.humanize
   %td= item.name
   %td
-    %span.badge.quantity 1
+    %span.badge.quantity= item.quantity

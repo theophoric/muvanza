@@ -13,17 +13,23 @@
 
 
 
-.well#inventory_editor.span12
-  .span2.room_list
-    %ul.nav.nav-list
-      - @room_names.each do |room_name|
-        %li= link_to room_name, filter_item_templates_move_inventory_path(@move,room_name), remote: true, data: {room_name: room_name}, class: 'item_room_toggle'
+#inventory_editor.span12
+  .span2
+    #room_list
+      %ul.nav.nav-list
+        - @room_names.each do |room_name|
+          %li= link_to room_name, filter_item_templates_move_inventory_path(@move,room_name), remote: true, data: {room_name: room_name}, class: 'item_room_toggle'
 
-  .span3.item_group_list
+  .span3
+    #item_group_list
 
-  .span6.inventory_item_list
-    %table.table.table-striped
-      = render partial: 'inventories/items/item', collection: @items
+
+
+
+  .span6
+    #inventory_item_list
+      - @items_by_room.each do |room, items|
+        = render partial: 'inventories/room', locals: {room: room, items: items }
     .row
       %p.lead 
         Volume: 

@@ -1,3 +1,14 @@
-$('.inventory_item_list table').append('<%= escape_javascript(render partial: "inventories/items/item") %>');
+
+var item = $('#item_<%= @item._id %>');
+if(_.any(item)){
+  item.find('.quantity').text("<%= @item.quantity %>");
+}else{
+  var room = $("#room_<%= format_room_name_for_dom_id(@item.room) %>");
+  if(_.any(room)){
+    room.find('tbody').append('<%= escape_javascript(render partial: "inventories/items/item") %>');
+  }else{
+    $('#inventory_item_list').append('<%= escape_javascript(render partial: "inventories/room", locals: {room: @item.room, items: [@item]})%>')
+  }
+}
 $('.item_count').text('<%= @item_count %>');
 $('.volume_count').text('<%= @volume_count %>');
