@@ -1,2 +1,7 @@
 jQuery ->
-  $('a').pjax('data-pjax-container')
+  $('.accept_bid').click (e)=>
+    $('.accept_bid').addClass('disabled')
+    $(e.target).addClass('btn-primary')
+    $(e.target).text("Bid Accepted")
+
+

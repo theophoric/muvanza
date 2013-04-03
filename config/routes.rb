@@ -1,8 +1,9 @@
 Muvanza::Application.routes.draw do
   resources :moves do
     member do
-      get :confirm
+      match :confirm
       get :pending
+      get :bids
     end
 
     resource :inventory do
@@ -14,6 +15,7 @@ Muvanza::Application.routes.draw do
     resources :bids 
 
   end
+  devise_for :moving_companies
 
   
 

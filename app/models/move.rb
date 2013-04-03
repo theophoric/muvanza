@@ -19,6 +19,8 @@ class Move
 
   field :distance
   field :state
+
+  field :email
   
 
   stateflow do 

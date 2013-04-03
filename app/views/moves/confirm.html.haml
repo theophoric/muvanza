@@ -6,10 +6,10 @@
         Confirm your details here, then enter your email address in the field provided.  We'll let you know as soon as a company has placed a bid for you to review, usually within 24 hours.
     .span3.centered
       .well
-        %h3
+        %h3.border-bottom
           Confirm Details
         %p
-          = form_for :customer_email, class: 'form-search', remote: true do |f|
+          = form_for :customer_email, class: 'form-search' do |f|
             = f.text_field :email, class: 'input-medium search-query', placeholder: 'bob@example.com'
             %button.btn
               %i.icon.icon-envelope
@@ -26,26 +26,45 @@
     .span6.thumbnail  
       From:
       = @move.from_address.full_street_address
-      = image_tag "http://maps.google.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@move.to_address.latitude}%2C#{@move.to_address.longitude}"
+      = image_tag "http://maps.google.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@move.from_address.latitude}%2C#{@move.from_address.longitude}"
     .span6.thumbnail  
       To:
-      = @move.from_address.full_street_address
-      = image_tag "http://maps.google.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@move.from_address.latitude}%2C#{@move.from_address.longitude}"
+      = @move.to_address.full_street_address
+      = image_tag "http://maps.google.com/maps/api/staticmap?size=300x300&sensor=false&zoom=16&markers=#{@move.to_address.latitude}%2C#{@move.to_address.longitude}"
   
 
 .inventory.span6
-  %h4
+  %h4 
     Inventory:
-    = "#{@inventory.items.count} items"
-  %table.table.table-hover
-    %thead
-      %tr
-        %th Room
-        %th Type
-        %th Size
-        %th Quantity
-    %tbody
-      = render partial: 'inventories/items/item', collection: @inventory.items
+    = "#{@inventory.total_item_quantity} items " 
+    with a volume of 
+    = "#{@inventory.total_item_volume} ft"
+    %sup 3
+    %span.pull-right
+      = link_to "Edit", edit_move_inventory_path(@move), class: 'btn'
+  #inventory_item_list
+    %table.table
+      %thead.border-bottom
+        %tr
+          %th Room
+          %th Item
+          %th Quantity
+          %th Volume
+      %tbody
+        - @items_by_room.each do |room, items|
+          = render partial: 'inventories/room', locals: {room: room, items: items }
+
+  
+      %tfoot#item_totals.border-top.alert.alert-info
+        %tr
+          %th Total:
+          %th
+          %th
+            %span.badge.item_count= @inventory.total_item_quantity
+          %th
+            %span.badge.volume_count
+              = "#{@inventory.total_item_volume} ft"
+              %sup 3
 
 - if @move.incomplete?
   = content_for :sidebar do

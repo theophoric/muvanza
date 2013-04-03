@@ -1,21 +1,35 @@
 class MovesController < ApplicationController
 
 
-
-
   def confirm
     @move = Move.find(params[:id])
-    @inventory = @move.inventory
+    if params[:customer_email]
+      @move.update_attributes(params[:customer_email].merge(state: "pending"))
+      redirect_to action: :bids
+    else
+      @inventory = @move.inventory
+      @items_by_room = @inventory.items.group_by(&:room)
+    end
   end
 
   def pending
     @move = Move.find(params[:id])
     @inventory = @move.inventory
+    @items_by_room = @inventory.items.group_by(&:room)
+  end
+
+  def bids
+    @move = Move.find(params[:id])
+    @inventory = @move.inventory
+    @bids = FakeBid.bids
   end
 
   # GET /moves
   # GET /moves.json
   def index
+
+    authenticate_moving_company!
+
     @moves = Move.all
 
     respond_to do |format|
@@ -27,8 +41,9 @@ class MovesController < ApplicationController
   # GET /moves/1
   # GET /moves/1.json
   def show
-    @move = Move.find(params[:id])
 
+
+    @move = Move.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @move }

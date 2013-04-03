@@ -7,6 +7,7 @@ class Bid
 
   field :amount
 
+
   stateflow do
     state :pending, :accepted, :rejected
     initial :pending

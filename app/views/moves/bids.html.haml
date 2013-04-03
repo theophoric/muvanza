@@ -1,0 +1,29 @@
+.jumbo.subhead
+  .container
+    .span12
+      %h2 Select your bid
+      %p.lead
+        You're almost done!  Below are the bids that have been submitted for your move.  Simply select the best one and a representative from the company will get in contact with you shortly.
+  
+  .container#bids
+    .well
+      %table.table.table-striped
+        %thead
+          %tr
+            %th{colspan:"2"} Company
+            %th Rating
+            %th Price
+            %th
+        %tbody
+          - @bids.each do |bid|
+            %tr
+              %td
+                = image_tag bid.image_url
+              %td
+                %ul.list.block
+                  %li.title= bid.name
+                  %li= link_to "Company Profile", bid.yelp_url, target: "_blank"
+              %td{style: 'padding-top:10px; '}= bid.rating
+              %td{style: 'padding-top:10px; '}= "$#{bid.amount}"
+              %td
+                %a.accept_bid.btn.btn-large Accept Bid
